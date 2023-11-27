@@ -1,0 +1,109 @@
+# Tutorial: Image Classification Using DeepVision
+
+Welcome to this tutorial on using DeepVision for image classification. In this guide, we'll walk through the process of using our machine learning library to classify images into predefined categories.
+
+## Prerequisites
+
+Before starting, make sure you have:
+
+- Python 3.6 or higher installed.
+- DeepVision library installed (`pip install deepvision`).
+- Basic understanding of Python and machine learning concepts.
+
+## Step 1: Setting Up Your Environment
+
+First, let's set up our working environment:
+
+1. Create a new Python virtual environment (recommended):
+   ```bash
+   python -m venv deepvision_env
+   source deepvision_env/bin/activate
+   ```
+
+2. Install DeepVision:
+   ```bash
+   pip install deepvision
+   ```
+
+## Step 2: Prepare Your Dataset
+
+For this tutorial, we'll use a simple dataset consisting of images of cats and dogs. Ensure your dataset is structured as follows:
+
+```
+dataset/
+    cats/
+        cat1.jpg
+        cat2.jpg
+        ...
+    dogs/
+        dog1.jpg
+        dog2.jpg
+        ...
+```
+
+## Step 3: Importing Libraries
+
+In your Python script or Jupyter notebook, import the necessary libraries:
+
+```python
+import deepvision as dv
+import os
+```
+
+## Step 4: Loading and Preprocessing the Data
+
+DeepVision makes it easy to load and preprocess your data:
+
+```python
+# Path to your dataset
+data_path = 'path/to/dataset'
+
+# Load dataset
+dataset = dv.datasets.load_from_directory(data_path, target_size=(200, 200), batch_size=32)
+```
+
+## Step 5: Building the Model
+
+Let's build a simple convolutional neural network (CNN) for our classification task:
+
+```python
+model = dv.models.Sequential()
+model.add(dv.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(200, 200, 3)))
+model.add(dv.layers.MaxPooling2D(2, 2))
+model.add(dv.layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(dv.layers.MaxPooling2D(2, 2))
+model.add(dv.layers.Flatten())
+model.add(dv.layers.Dense(64, activation='relu'))
+model.add(dv.layers.Dense(2, activation='softmax'))  # 2 categories: cats and dogs
+```
+
+## Step 6: Compile the Model
+
+Compile the model with an appropriate optimizer, loss function, and metrics:
+
+```python
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+```
+
+## Step 7: Training the Model
+
+Train the model using the dataset:
+
+```python
+model.fit(dataset, epochs=10)
+```
+
+## Step 8: Evaluating the Model
+
+Finally, evaluate the performance of your model:
+
+```python
+loss, accuracy = model.evaluate(dataset)
+print(f"Model accuracy: {accuracy*100}%")
+```
+
+## Conclusion
+
+Congratulations! You've successfully built and trained an image classification model using DeepVision. This is a basic example, and DeepVision offers much more flexibility and options for building sophisticated machine learning models.
+
+For more advanced tutorials and documentation, visit [DeepVision's official documentation].
